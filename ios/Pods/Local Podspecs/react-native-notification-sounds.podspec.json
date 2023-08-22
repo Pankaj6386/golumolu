@@ -1,0 +1,26 @@
+{
+  "name": "react-native-notification-sounds",
+  "version": "0.5.5",
+  "summary": "Native notification sounds list. returns the id, title and url of the sounds",
+  "description": "react-native-notification-sounds",
+  "homepage": "https://github.com/github_account/react-native-notification-sounds",
+  "license": "MIT",
+  "authors": {
+    "Your Name": "yourname@email.com"
+  },
+  "platforms": {
+    "ios": "9.0",
+    "tvos": "10.0"
+  },
+  "source": {
+    "git": "https://github.com/github_account/react-native-notification-sounds.git",
+    "tag": "0.5.5"
+  },
+  "source_files": "ios/**/*.{h,m,swift}",
+  "requires_arc": true,
+  "dependencies": {
+    "React": [
+
+    ]
+  }
+}

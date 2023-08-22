@@ -1,0 +1,6 @@
+framework module Pods_GoalMogul {
+  umbrella header "Pods-GoalMogul-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module EXImagePicker {
+  umbrella header "EXImagePicker-umbrella.h"
+
+  export *
+  module * { export * }
+}

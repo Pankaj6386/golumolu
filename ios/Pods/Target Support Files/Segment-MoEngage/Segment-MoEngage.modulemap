@@ -1,0 +1,6 @@
+framework module Segment_MoEngage {
+  umbrella header "Segment-MoEngage-umbrella.h"
+
+  export *
+  module * { export * }
+}

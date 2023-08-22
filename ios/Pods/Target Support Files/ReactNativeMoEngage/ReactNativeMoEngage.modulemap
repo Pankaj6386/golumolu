@@ -1,0 +1,6 @@
+framework module ReactNativeMoEngage {
+  umbrella header "ReactNativeMoEngage-umbrella.h"
+
+  export *
+  module * { export * }
+}

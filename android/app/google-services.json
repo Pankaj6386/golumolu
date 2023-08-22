@@ -1,0 +1,63 @@
+{
+    "project_info": {
+        "project_number": "528421087287",
+        "firebase_url": "https://goalmogul-app.firebaseio.com",
+        "project_id": "goalmogul-app",
+        "storage_bucket": "goalmogul-app.appspot.com"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:528421087287:android:b3743d6a0195d8e45eb7b2",
+                "android_client_info": {
+                    "package_name": "com.goalmogul.goalmogulbeta"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "528421087287-2lb689po26uc8hv58d0sccmu6gidgt5k.apps.googleusercontent.com",
+                    "client_type": 1,
+                    "android_info": {
+                        "package_name": "com.goalmogul.goalmogulbeta",
+                        "certificate_hash": "0960ee45722b43656695faecca7dfc2742de881c"
+                    }
+                },
+                {
+                    "client_id": "528421087287-7871j8a5031ggjlcfm8hpv9ojjhmjtrp.apps.googleusercontent.com",
+                    "client_type": 1,
+                    "android_info": {
+                        "package_name": "com.goalmogul.goalmogulbeta",
+                        "certificate_hash": "fde6143d261e2a3f49d68998ccbb0c6b4f610d2b"
+                    }
+                },
+                {
+                    "client_id": "528421087287-19nu327o1822pl9rsvdvvb26cph97biq.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyBreiBEYnCmWEmb5_f3PAyGkJ7dbd7IDRw"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "528421087287-19nu327o1822pl9rsvdvvb26cph97biq.apps.googleusercontent.com",
+                            "client_type": 3
+                        },
+                        {
+                            "client_id": "528421087287-g9ulm8uhb106eo1iqr9eou0uejvleidd.apps.googleusercontent.com",
+                            "client_type": 2,
+                            "ios_info": {
+                                "bundle_id": "com.goalmogul.goalmogulbeta"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}

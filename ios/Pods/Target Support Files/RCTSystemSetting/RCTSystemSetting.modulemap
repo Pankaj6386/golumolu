@@ -1,0 +1,6 @@
+framework module RCTSystemSetting {
+  umbrella header "RCTSystemSetting-umbrella.h"
+
+  export *
+  module * { export * }
+}

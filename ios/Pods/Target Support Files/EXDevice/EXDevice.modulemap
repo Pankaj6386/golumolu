@@ -1,0 +1,6 @@
+framework module EXDevice {
+  umbrella header "EXDevice-umbrella.h"
+
+  export *
+  module * { export * }
+}

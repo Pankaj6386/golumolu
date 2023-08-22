@@ -1,0 +1,122 @@
+
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+$RNFirebaseAsStaticFramework = true
+
+platform :ios, '12.4'
+
+# # Convert all permission pods into static libraries
+ pre_install do |installer|
+   Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+
+   installer.pod_targets.each do |pod|
+     if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+       def pod.build_type;
+         # Uncomment one line depending on your CocoaPods version
+         Pod::BuildType.static_library # >= 1.9
+         # Pod::Target::BuildType.static_library # < 1.9
+       end
+     end
+   end
+ end
+#  post_install do |installer|
+#   __apply_Xcode_12_5_M1_post_install_workaround(installer)
+#   installer.pods_project.targets.each do |target|
+#        target.build_configurations.each do |config|
+#               config.build_settings['SWIFT_VERSION'] = '5.0'
+#               config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
+#               config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+#       end
+#   end
+# post_install do |installer|
+#   react_native_post_install(installer)
+
+#   installer.pods_project.targets.each do |target|
+#     target.build_configurations.each do |config|
+#       config.build_settings['SWIFT_VERSION'] = '5.0'
+#                     config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
+#                     config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+#     end
+#     case target.name
+#     when 'RCT-Folly'
+#       target.build_configurations.each do |config|
+#         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+#       end
+#     end
+#   end
+# end
+post_install do |installer|
+  react_native_post_install(installer)
+  # Apple Silicon builds require a library path tweak for Swift library discovery or "symbol not found" for swift things
+  installer.aggregate_targets.each do |aggregate_target| 
+    aggregate_target.user_project.native_targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['LIBRARY_SEARCH_PATHS'] = ['$(SDKROOT)/usr/lib/swift', '$(inherited)']
+      end
+    end
+    aggregate_target.user_project.save
+  end
+
+   # Flipper requires a crude patch to bump up iOS deployment target, or "error: thread-local storage is not supported for the current target"
+  # I'm not aware of any other way to fix this one other than bumping iOS deployment target to match react-native (iOS 11 now)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'
+      config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+     end
+  end
+
+  # ...but if you bump iOS deployment target, Flipper barfs again "Time.h:52:17: error: typedef redefinition with different types"
+  # We need to make one crude patch to RCT-Folly - set `__IPHONE_10_0` to our iOS target + 1
+  # https://github.com/facebook/flipper/issues/834 - 84 comments and still going...
+  # `sed -i -e  $'s/__IPHONE_10_0/__IPHONE_12_0/' Pods/RCT-Folly/folly/portability/Time.h`
+end
+target 'GoalMogul' do
+  $ExpoUseSources = ['@unimodules/core']
+  $FirebaseSDKVersion = '8.13.0'
+  use_unimodules!
+  config = use_native_modules!
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  use_frameworks! :linkage => :static
+  pod 'Segment-MoEngage’
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  pod 'MoEngage-iOS-SDK'
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+
+  use_react_native!(:path => config["reactNativePath"])
+
+  # Uncomment to opt-in to using Flipper
+  #
+  # if !ENV['CI']
+  #   use_flipper!('Flipper' => '0.75.1', 'Flipper-Folly' => '2.5.3', 'Flipper-RSocket' => '1.3.1')
+  #   post_install do |installer|
+  #     flipper_post_install(installer)
+  #   end
+  # end
+  pod 'ReactNativeMoEngage', :path => '../node_modules/react-native-moengage'
+  pod 'react-native-video', :path => '../node_modules/react-native-video'
+  pod 'ReactNativeART', :path => '../node_modules/@react-native-community/art'
+
+    pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+    pod 'react-native-compressor', :path => '../node_modules/react-native-compressor'
+
+    pod 'TouchID', :path => '../node_modules/react-native-touch-id'
+
+    pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+    # post_install do |installer|
+    #   installer.pods_project.targets.each do |target|
+    #     if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+    #       target.build_configurations.each do |config|
+    #           config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+    #       end
+    #     end
+    #   end
+    # end
+
+end
